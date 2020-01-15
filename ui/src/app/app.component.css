@@ -1,0 +1,5 @@
+/*    npm install bootstrap@3 jquery --save       run in the terminal to import style properly */
+
+@import "~bootstrap/dist/css/bootstrap.css";
+/*@import '../app/css/bootstrap.min.css';*/
+/*p[hidden] { display: none; }*/
