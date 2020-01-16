@@ -4,11 +4,11 @@
     Signed in: {{user}}
   </p>
 </nav>
-<h1>Greeting</h1>
+<h1>User Interface Integration Test Page from the UI server</h1>
 <div [hidden]="!authenticated">
-  <p>The ID is {{greeting.id}}</p>
-  <p>The content is {{greeting.content}}</p>
+  <p>This is a randomly generated UUID from the resource server: {{message.id}}</p>
+  <p>This information is created by an Admin User:  {{message.content}}</p>
 </div>
 <div [hidden]="authenticated">
-	<p>Login to see your greeting</p>
+	<p>Login required to see information.</p>
 </div>

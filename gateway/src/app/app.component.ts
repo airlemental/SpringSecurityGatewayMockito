@@ -10,7 +10,7 @@ export class AppComponent {
 
   admin: boolean;
   user: any;
-  title = 'Demo';
+  title = 'Zuul';
   credentials = {username: '', password: ''};
   authenticated = false;
 

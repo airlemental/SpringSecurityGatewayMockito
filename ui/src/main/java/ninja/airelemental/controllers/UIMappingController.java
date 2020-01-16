@@ -14,7 +14,7 @@ public class UIMappingController {
 
   @GetMapping(value = "/{path:[^\\.]*}")
   public String redirect() {
-    return "forward:/";
+    return "forward:/";   // forwards to the url from the MVC URI pattern captured in @GetMapping? What does the ^ do?
   }
 
   @RequestMapping("/user")
