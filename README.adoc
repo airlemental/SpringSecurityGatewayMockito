@@ -8,5 +8,5 @@ ____
 
 
 
-image:https://github.com/airlemental/SpringSecurityGatewayMockito/blob/master/Architecture.png
+image:https://github.com/airlemental/SpringSecurityGatewayMockito/blob/master/Architecture.png[Components of the System]
 
