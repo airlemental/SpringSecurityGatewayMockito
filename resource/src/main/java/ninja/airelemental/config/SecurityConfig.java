@@ -19,16 +19,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // We need this to prevent the browser from popping up a dialog on a 401
         http.httpBasic().disable().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()); // cross site request forgery
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").hasRole("WRITER")
                 .anyRequest().authenticated();
     }
 
     @Bean
     public WebRequestTraceFilter webRequestLoggingFilter(ErrorAttributes errorAttributes,
-                                                         TraceRepository traceRepository, TraceProperties traceProperties) {
-        WebRequestTraceFilter filter = new WebRequestTraceFilter(traceRepository,
-                traceProperties);
+                                                         TraceRepository traceRepository,
+                                                         TraceProperties traceProperties) {
+        WebRequestTraceFilter filter = new WebRequestTraceFilter(traceRepository, traceProperties);
         if (errorAttributes != null) {
             filter.setErrorAttributes(errorAttributes);
         }

@@ -1,7 +1,5 @@
 package ninja.airelemental;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -12,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
+
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)  //tells Spring Boot to look for a main configuration class
 public class ApplicationTests {
 
 	@LocalServerPort

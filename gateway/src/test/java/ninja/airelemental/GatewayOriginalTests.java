@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class ApplicationTests {
+public class GatewayOriginalTests {
 
 	@LocalServerPort
 	private int port;

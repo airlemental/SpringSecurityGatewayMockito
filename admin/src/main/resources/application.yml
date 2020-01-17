@@ -10,4 +10,4 @@ spring:
   session:
     store-type: redis
 server:
-  port: 8082
+  port: 8083
