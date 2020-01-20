@@ -1,6 +1,6 @@
 package ninja.airelemental;
 
-public class ApplicationUnitTests {
+public class UserInterfaceUnitTests {
 }
 
 // Given: Gateway will direct authenticated traffic with a session token in the header

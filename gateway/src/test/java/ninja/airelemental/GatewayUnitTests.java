@@ -1,36 +1,6 @@
 package ninja.airelemental;
 
-import ninja.airelemental.controllers.GatewayUserController;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.web.client.RestTemplate;
-
-@RunWith(MockitoJUnitRunner.class)
 public class GatewayUnitTests {
-
-  @Mock
-  private RestTemplate restTemplate;
-
-  @InjectMocks
-  private GatewayUserController gatewayUserController = new GatewayUserController();
-
-//  @Test
-//  public void whenGetIsCalled_shouldReturnMockedUser() {
-//    Given:
-//    // need to create a user object here to be compared against
-//
-//    When:
-//    Mockito.when(restTemplate.getForEntity("http://localhost:8080/user", GatewayUserController.class))
-//      .thenReturn(new ResponseEntity<Principal>("user goes here", HttpStatus.??));
-//
-//    // actual /user endpoint needs to be called to pull the List of users/passwords
-//
-//    Then:
-//    Assert.assertEquals("http authenticated status ok?");
-//
-//  }
 
 
 }
