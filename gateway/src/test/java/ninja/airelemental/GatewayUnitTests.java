@@ -5,6 +5,26 @@ public class GatewayUnitTests {
 
 }
 
+
+// @RunWith(SpringRunner.class) - defines what will provide the test environment and run the test.
+// @WebMvcTest(NameOfController.class) - used for controller layer unit testing. Works with Mockito. Only scans @Controller and @RestController
+// @Beans the test is dependent on needs to be provided manually.
+
+// @Autowired
+// private MockMvc mockMvc;
+//          - provides a temporary instance of an HTTP server to run the test against.
+//          - processes HTTP responses. Provides methods for "expectations".
+//  .perform()   the action verb to initiate gets, posts, other actions? example (get("/user"))  , this is a urlTemplate:
+//  .andExpect()  works on content, status types, file types, and more...
+// verify()
+
+// @MockBean - defines spring managed beans that will get autowired into the context
+
+// Run code coverage through your main application.
+//  You can add the following into a test
+//
+//  MyApplication.main(new String[] {});
+
 // Mezaros (MES) 4 phase structure.
 // Setup: Pre reqs needed for the test to successfully run.
 // Execution: Invocation of the class/method under test. Could be one test per method if it is large and complicated.
