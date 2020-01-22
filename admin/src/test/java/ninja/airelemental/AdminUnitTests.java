@@ -10,10 +10,13 @@ public class AdminUnitTests {
 
 }
 
-// Run code coverage through your main application.
-//  You can add the following into a test
-//
-//  MyApplication.main(new String[] {});
+
+/***********
+ Run code coverage through your main application.
+  You can add the following into a test
+
+  MyApplication.main(new String[] {});
+***********/
 
 // Setup
 // Execution

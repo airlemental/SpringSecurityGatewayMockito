@@ -12,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 public class GatewayUserControllerTest {
   private GatewayUserController gatewayUserController = new GatewayUserController();
 
-  /***
+  /***  -----Williams Example--------------
    * Happy Path for the method
    */
   @Test
@@ -48,7 +46,7 @@ public class GatewayUserControllerTest {
   }
 
   /**
-   * Unhappy Path for the method
+   * Unhappy Path for the method    -----Williams Example--------------
    */
   @Test(expected = ClassCastException.class)
   public void determineUserRole_cannotGetUserRole() {

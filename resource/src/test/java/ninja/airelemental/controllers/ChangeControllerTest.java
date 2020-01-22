@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,9 +16,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Date;
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -63,11 +68,30 @@ public class ChangeControllerTest {
     @Test // simply pulls the root content from ChangeController variable, starts as "Hello World"
     @WithMockUser
     public void homeReturnsMessage() throws Exception {
-        mockMvc.perform(get("/")).andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().string(message.getContent())); // this fails with "Hello World" which means it isn't calling the changeController?
-                                                                    // this works IF it has been populated already, but not when fresh? or if Redis isn't running?
-                                                                    // How does Redis get mocked out? Or does it always have to be running?
+        // Expected
+        String expectedMessage = "Hello World";
+        String id = UUID.randomUUID().toString(); // how to match it since calling it generates a new one each time? Just make sure it's not blank?
+        String expectedUser = "admin";
+        Date expectedTimestamp = new Date();
+        // Initialize
+        Message message = Mockito.mock(Message.class);
+        Change change = Mockito.mock(Change.class);
+        // Mock
+        Mockito.when(change.getMessage()).thenReturn(expectedMessage);
+        Mockito.when(change.getUser()).thenReturn(expectedUser);
+        Mockito.when(change.getTimestamp()).thenReturn(expectedTimestamp);
+        // Execute
+        mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andDo(print())
+//                .andExpect(jsonPath("$[0]", is(expectedTimestamp)))
+                .andExpect(jsonPath("$[1]", is(expectedUser)))
+                .andExpect(jsonPath("$[2]", is(expectedMessage)));
+
+        // Verify
+
+
+
+
     }
 
     // {{item.timestamp}} ({{item.user}}): "{{item.message}}"
