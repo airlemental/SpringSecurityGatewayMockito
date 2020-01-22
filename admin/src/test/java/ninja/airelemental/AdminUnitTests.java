@@ -1,6 +1,13 @@
 package ninja.airelemental;
 
 public class AdminUnitTests {
+
+  // receives a request for role authorization, requests verification of session token, true or false?
+
+  // receives a request for role authorization, if true, serves Admin page
+
+  // Admin page Submit button used, requests UUID from resource server, submits data to Change on resource server, displays both.
+
 }
 
 // Run code coverage through your main application.

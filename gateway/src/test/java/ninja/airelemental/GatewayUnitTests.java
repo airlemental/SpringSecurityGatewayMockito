@@ -1,48 +1,84 @@
 package ninja.airelemental;
 
+import ninja.airelemental.controllers.GatewayUserController;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.junit.Assert.assertEquals;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT) // acts like setting server.port property to 0, prevents collisions
 public class GatewayUnitTests {
+
+//  @Autowired      // probably not needed using TestRestTemplate, but maybe with MockMvc?
+//  private GatewayUserController gatewayUserController;
+
+  @LocalServerPort  //injects HTTP port that gets allocated at Runtime.
+  private int port;
+
+
+  // http call to localhost:8080, checks authentication, session token 401 UNAUTHORIZED, serves app.component.html login section
+  private TestRestTemplate testRestTemplate = new TestRestTemplate("user", "password");
+
+//  @Test
+//  public void loginPageReturnsUnauthorized(){   //-----------fails------------
+//    ResponseEntity<String> response = testRestTemplate.getForEntity("http://localhost:8080/", String.class);
+//    assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+//  }
+
+  @Test
+  public void loginPageReturnsUnauthorized(){  //----------fails--------------
+    // does not work because HttpStatus is ok because login page is returned, what checks authorization token?
+    ResponseEntity<String> response = testRestTemplate.getForEntity("http://localhost:" + port + "/", String.class);
+    assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+  }
+
+  // http call to localhost:8080, checks authentication, session token 200 OK, serves app.component.html with 1 or 2 buttons based on ROLE
+  private TestRestTemplate testRestUserTemplate = new TestRestTemplate("user", "password");
+
+//  @Test
+//  public void loginPageReturnsUserOK(){  ------fails----------
+//    ResponseEntity<GatewayUserController> response = testRestUserTemplate.getForEntity("http://localhost:8080/user", GatewayUserController.class);
+//    assertEquals(HttpStatus.OK, response.getStatusCode());
+//  }
+
+  @Test
+  public void loginPageReturnsUserOK(){  // ----success------  why is random port working but not specified port?
+    ResponseEntity<String> response = testRestUserTemplate.getForEntity("http://localhost:" + port + "/user", String.class);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+  }
+
+
+
+  private TestRestTemplate testRestAdminTemplate = new TestRestTemplate("admin", "admin");
+
+  @Test
+  public void loginPageReturnsAdminOK(){
+    ResponseEntity<GatewayUserController> response = testRestAdminTemplate.getForEntity("http://localhost:8080/user", GatewayUserController.class);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+  }
+
+  // page submit button used from login page, one or both fields blank, returns 401 UNAUTHORIZED
+
+  // page submit button used, Username and Password checked against "GatewaySecurityConfig",
+  //         if Role User found, only displays Go To UI button
+  //         if Role Admin found, displays UI and Admin buttons
+
+  // UI button clicked, returns status 200, serves /ui page, contains new resource generated UUID and content from UI.
+
+  // clicking Home always returns login page.
+
+  // clicking logout invalidates session token and returns basic login screen
 
 
 }
 
 
-// @RunWith(SpringRunner.class) - defines what will provide the test environment and run the test.
-// @WebMvcTest(NameOfController.class) - used for controller layer unit testing. Works with Mockito. Only scans @Controller and @RestController
-// @Beans the test is dependent on needs to be provided manually.
 
-// @Autowired
-// private MockMvc mockMvc;
-//          - provides a temporary instance of an HTTP server to run the test against.
-//          - processes HTTP responses. Provides methods for "expectations".
-//  .perform()   the action verb to initiate gets, posts, other actions? example (get("/user"))  , this is a urlTemplate:
-//  .andExpect()  works on content, status types, file types, and more...
-// verify()
-
-// @MockBean - defines spring managed beans that will get autowired into the context
-
-// Run code coverage through your main application.
-//  You can add the following into a test
-//
-//  MyApplication.main(new String[] {});
-
-// Mezaros (MES) 4 phase structure.
-// Setup: Pre reqs needed for the test to successfully run.
-// Execution: Invocation of the class/method under test. Could be one test per method if it is large and complicated.
-// Verification: Assertion of the result returned from the method under test. Should be verifying the object returned as well as the data.
-//              VALIDATION is as important as code coverage. Just having "notnull" is often not enough.
-// Teardown: Clearing of any data and fixtures created at setup including persistent data and releasing resources like database connections. Includes deleting any files created.
-
-
-
-// Given: Gateway will direct authenticated traffic with a session token in the header
-// Given receives the context and passes it to When.
-// Create an instance of the system under test(object to be tested), also called a "fixture".
-
-// When: User successfully authenticates against the login page.
-// When receives the context, performs one or more actions, and passes the result to Then.
-// Invoke the methods of the system under test. This represents specific behavior the test will verify.
-// Often a single method with the outcome stored in local variables.
-
-// Then: The Security config will verify the user and token against the Redis server.
-// Then receives the result and checks it against the expectations.
-// Verify the expected behavior/outcome is obtained. This could be a single assert or a single concept.

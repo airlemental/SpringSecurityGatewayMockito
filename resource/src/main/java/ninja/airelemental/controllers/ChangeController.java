@@ -22,11 +22,17 @@ public class ChangeController {
         return new Message(message);
     }
 
+
+    // {{item.timestamp}} ({{item.user}}): "{{item.message}}"   template from changes.component.html
+    // body: {content: this.greeting['content']}  update() from write.component.ts
     @GetMapping(value = "/changes")
-    public List<Change> changes() {
+    public List<Change> changes() { // Stores every instance of the "Change" class created by the Admin submit button.
         return changes;
     }
 
+
+    // from write.component.ts
+    // this.http.post('/resource', {content: this.greeting['content']})
     @PostMapping(value = "/")
     public Message update(@RequestBody Message map, Principal principal) {
         if (map.getContent() != null) {
