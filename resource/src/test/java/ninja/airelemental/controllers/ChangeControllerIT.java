@@ -4,6 +4,7 @@ import ninja.airelemental.services.Change;
 import ninja.airelemental.services.Message;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,7 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ChangeController.class)
-public class ChangeControllerTest {
+@Ignore
+public class ChangeControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
