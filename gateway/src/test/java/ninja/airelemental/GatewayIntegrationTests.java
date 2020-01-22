@@ -1,8 +1,8 @@
-package ninja.airelemental;
-
-public class GatewayIntegrationTests {
-}
-
-
-
-
+//package ninja.airelemental;
+//
+//public class GatewayIntegrationTests {
+//}
+//
+//
+//
+//
