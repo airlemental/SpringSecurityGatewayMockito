@@ -20,12 +20,14 @@ public class MessageUtilTest {
         Principal principal = Mockito.mock(Authentication.class);
         List<Change> changes = new ArrayList<>();
 
+        //Mock
         Mockito.when(map.getContent()).thenReturn("This is a change message.");
         Mockito.when(principal.getName()).thenReturn("Bob");
 
         //Execution
         String newChange = MessageUtil.adminSubmitsNewChange(map, principal, changes);
 
+        //Verify
         Assert.assertEquals("This is a change message.", newChange);
 
 
