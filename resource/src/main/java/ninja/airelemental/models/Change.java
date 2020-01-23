@@ -1,4 +1,4 @@
-package ninja.airelemental.services;
+package ninja.airelemental.models;
 
 import org.springframework.stereotype.Service;
 

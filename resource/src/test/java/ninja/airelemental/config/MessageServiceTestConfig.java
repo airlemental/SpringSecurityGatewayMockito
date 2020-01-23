@@ -1,6 +1,6 @@
 package ninja.airelemental.config;
 
-import ninja.airelemental.services.Message;
+import ninja.airelemental.models.Message;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

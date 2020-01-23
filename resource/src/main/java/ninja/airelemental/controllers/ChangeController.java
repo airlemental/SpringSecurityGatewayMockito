@@ -1,7 +1,7 @@
 package ninja.airelemental.controllers;
 
-import ninja.airelemental.services.Change;
-import ninja.airelemental.services.Message;
+import ninja.airelemental.models.Change;
+import ninja.airelemental.models.Message;
 import ninja.airelemental.utils.MessageUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +36,7 @@ public class ChangeController {
     // this.http.post('/resource', {content: this.greeting['content']})
     @PostMapping(value = "/")
     public Message update(@RequestBody Message map, Principal principal) {
-        message = MessageUtil.transformMessage(map, principal, changes);
+        message = MessageUtil.adminSubmitsNewChange(map, principal, changes);
         return new Message(message);
     }
 
