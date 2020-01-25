@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GatewayUserControllerTest {
+
   private GatewayUserController gatewayUserController = new GatewayUserController();
 
   /***  -----Williams Example--------------

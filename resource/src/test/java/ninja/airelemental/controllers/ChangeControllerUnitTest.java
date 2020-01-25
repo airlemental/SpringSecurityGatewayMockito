@@ -1,5 +1,7 @@
 package ninja.airelemental.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ninja.airelemental.models.Change;
 import ninja.airelemental.models.Message;
 import org.junit.Assert;
@@ -13,12 +15,13 @@ import java.util.List;
 
 public class ChangeControllerUnitTest {
 
-    /**
+    /**   ------------------- section 1 ---------------------
      * Section for GET endpoint calls to "/" using home()
      */
 
     @Test // Happy
     public void homeReturnsBasicMessage() {
+
         // Expect and Initialize
         String message = "Hello World";
 
@@ -38,7 +41,7 @@ public class ChangeControllerUnitTest {
     @Test // Un-Happy
     public void homeReturnsNothingOrWrongMessage() {
         // Expect and Initialize
-        String message = "This is a change from setup.";
+        String message = "This is a change from setup."; // This simply changes the message that is expected without changing the class's variable.
 
         // Mock
         ChangeController changeController = Mockito.mock(ChangeController.class);
@@ -52,7 +55,7 @@ public class ChangeControllerUnitTest {
         Assert.assertNotEquals(message, newMessage.getContent());
     }
 
-    /**
+    /**    ----------------- section 2 ------------------------------
      * Section for GET endpoint calls to "/changes" using changes()
      */
 
@@ -99,46 +102,55 @@ public class ChangeControllerUnitTest {
         Assert.assertNotEquals(mockChanges.size(), realChanges.size());
     }
 
-    /**
+    /**         --------------- section 3 ---------------------------
      * Section for POST endpoint calls to "/" using update()
      */
 
     @Test  // Happy
-    public void updateChangesTheMessageContent() {
+    public void updateChangesTheMessageContent() throws JsonProcessingException {
         // Expect and Initialize
-        ChangeController withChangeList = new ChangeController();
-        Message map = Mockito.mock(Message.class);
-        List<Change> setContent = withChangeList.changes();
-        setContent.add(new Change("admin", "Hello World"));
-        List<Change> content1 = withChangeList.changes();
-        content1.toArray();
-        content1.get(0);
-        System.out.println(content1);
+        ObjectMapper mapTheChanges = new ObjectMapper();
+
 
         // Mock
-
+        ChangeController withChangeList = new ChangeController();
+        List<Change> setContent = withChangeList.changes();
 
         // Execute
-        setContent.add(new Change("admin", "This content is changed using update."));
-        List<Change> content2 = withChangeList.changes();
-        content2.toArray();
-        content2.get(0);
+        setContent.add(new Change("Pooh", "Hello World"));
+        List<Change> firstSave = setContent;
+        String content1 = mapTheChanges.writeValueAsString(firstSave);
+        System.out.println(content1);
+
+        setContent.add(new Change("Piglet", "Our Content Options have Changed"));
+        List<Change> secondSave = setContent;
+        String content2 = mapTheChanges.writeValueAsString(secondSave);
         System.out.println(content2);
 
         // Verify
-        Assert.assertNotEquals(content1 , content2);
+        Assert.assertSame(firstSave, secondSave);
+        Assert.assertNotSame(content1.length(), content2.length());
+
     }
 
-    @Test  // Happy
-    public void updateDoesNotChangeTheMessageContent() {
+    @Test  // Un-Happy
+    public void updateDoesNotChangeTheMessageContent()  {
         // Expect and Initialize
 
+/** How do I write a meaningful "the change did not update" test?
+ *
+ */
+
+
         // Mock
-        ChangeController changeController = Mockito.mock(ChangeController.class);
+
 
         // Execute
 
+
         // Verify
+
     }
+
 
 }

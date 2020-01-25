@@ -13,15 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class ResourceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // We need this to prevent the browser from popping up a dialog on a 401
-        http.httpBasic().disable().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()); // cross site request forgery
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").hasRole("WRITER")
-                .anyRequest().authenticated();
+        http.httpBasic().disable().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()); // cross site request forgery
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").hasRole("WRITER").anyRequest().authenticated();
     }
 
     @Bean
@@ -29,11 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                                          TraceRepository traceRepository,
                                                          TraceProperties traceProperties) {
         WebRequestTraceFilter filter = new WebRequestTraceFilter(traceRepository, traceProperties);
-        if (errorAttributes != null) {
-            filter.setErrorAttributes(errorAttributes);
-        }
-        filter.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);
-        return filter;
+            if (errorAttributes != null) {
+                filter.setErrorAttributes(errorAttributes);
+                }
+            filter.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1); // This changes the order so custom configuration will work.
+            return filter;
     }
 
 }
