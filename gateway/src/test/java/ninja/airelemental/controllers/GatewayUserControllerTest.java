@@ -21,9 +21,9 @@ public class GatewayUserControllerTest {
    */
   @Test
   public void determineUserRole_success() {
+    // Initialization
     String expectedName = "Marcus";
     String expectedRole = "ROLE_USER, ROLE_ADMIN";
-    // Initialization
     Principal user = Mockito.mock(Authentication.class);
     Authentication userAuthenticated =  (Authentication)user;
 

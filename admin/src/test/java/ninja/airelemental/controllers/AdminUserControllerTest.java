@@ -1,42 +1,101 @@
 package ninja.airelemental.controllers;
 
+import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class AdminUserControllerTest {
 
-  @Autowired
-  private MockMvc mockMvc;
+  @Test  // Happy
+  public void rootEndpointReturnsForwardString() {
+    // Expect and Initialize
+    String expectedReturn = "forward:/";
 
+    // Mock
+    AdminUserController adminUserController = new AdminUserController();
 
-//  @GetMapping(value = "/{path:[^\\.]*}")
-//  public String redirect() {
-//    return "forward:/";
-//  }
+    // Execute
+    String forwardReturned = adminUserController.redirect();
 
-  // --------Happy Path would be a get call that returns the forward----------------
+    // Verify
+    Assert.assertEquals(expectedReturn, forwardReturned);
+  }
 
-//    @Test
-//    public void getPathAndTestResponseCode() throws Exception {
-//      // Expected, anything that calls the Admin server that isn't /user will get forward:/ returned as a string.
-//      String expectedReturn = "forward:/";  //How does Angular process this?
-//      String returnedData = new String();
-//      // Initialize
-//
-//      // Mock
-//      MockHttpServletRequest request = new MockHttpServletRequest();
-//      // Execute
-//      mockMvc.perform(get("/")).andExpect(status().isOk()); //mockMvc only returns null. Why?
-//      // Verify   returns HTTP 302 for redirect?
-//      Assert.assertEquals(expectedReturn, request.getAttribute(returnedData));
-//    }
+  @Test  // Un-Happy
+  public void rootEndpointHasIncorrectOrNoValue() {
+    // Expect and Initialize
+    String expectedReturn = "forward:/";
 
+    // Mock
 
-    //------- Non Happy Path has no return? returns 404 not found? directs incorrectly?
+    // Execute
+    String forwardReturned = "";
 
-    @Test
-    public void user() {
-      //this is the same thing that William did
-    }
+    // Verify
+    Assert.assertNotEquals(expectedReturn, forwardReturned);
+  }
+
+  @Test
+  public void returnAuthenticatedUser_success() {
+
+    // Initialization
+    String expectedName = "Aaron";
+
+    // Mocking Part
+    Principal user = Mockito.mock(Authentication.class);
+    Authentication userAuthenticated = (Authentication) user;
+
+    AdminUserController adminUserController = new AdminUserController();
+
+    // Mocking Part
+    Mockito.when(userAuthenticated.getName()).thenReturn(expectedName);
+    Mockito.when(userAuthenticated.getAuthorities()).thenAnswer(invocationOnMock -> {
+      GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");
+      List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+      grantedAuthorities.add(grantedAuthority);
+      return grantedAuthorities;
+    });
+
+    // Execution Part
+    Map<String, Object> userMapReturned = adminUserController.user(user);
+
+    // Verify expecting outcome
+    Assert.assertEquals(expectedName, userMapReturned.get("name"));
+
+  }
+
+  @Test  // Un-Happy
+  public void returnAuthenticatedUser_Fail() {
+    // Initialization
+    String expectedName = "Randolph";
+
+    // Mocking Part
+    Principal user = Mockito.mock(Authentication.class);
+    Authentication userAuthenticated = (Authentication) user;
+
+    AdminUserController adminUserController = new AdminUserController();
+
+    // Mocking Part
+    Mockito.when(userAuthenticated.getName()).thenReturn(expectedName);
+    Mockito.when(userAuthenticated.getAuthorities()).thenAnswer(invocationOnMock -> {
+      GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_ADMIN");
+      List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+      grantedAuthorities.add(grantedAuthority);
+      return grantedAuthorities;
+    });
+
+    // Execution Part
+    Map<String, String> userMapReturned = null;
+
+    // Verify expecting outcome
+    Assert.assertNotEquals(expectedName, userMapReturned);
+  }
 }

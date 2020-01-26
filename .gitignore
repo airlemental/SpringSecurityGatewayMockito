@@ -4,6 +4,9 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+### Personal Files ###
+.xlsx
+
 ### STS ###
 .apt_generated
 .classpath
