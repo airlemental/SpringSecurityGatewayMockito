@@ -1,7 +1,8 @@
 package ninja.airelemental.controllers;
 
-import ninja.airelemental.services.Change;
-import ninja.airelemental.services.Message;
+import ninja.airelemental.models.Change;
+import ninja.airelemental.models.Message;
+import ninja.airelemental.utils.MessageUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,20 +23,20 @@ public class ChangeController {
         return new Message(message);
     }
 
+
+    // {{item.timestamp}} ({{item.user}}): "{{item.message}}"   template from changes.component.html
+    // body: {content: this.greeting['content']}  update() from write.component.ts
     @GetMapping(value = "/changes")
-    public List<Change> changes() {
+    public List<Change> changes() { // Stores every instance of the "Change" class created by the Admin submit button.
         return changes;
     }
 
+
+    // from write.component.ts
+    // this.http.post('/resource', {content: this.greeting['content']})
     @PostMapping(value = "/")
     public Message update(@RequestBody Message map, Principal principal) {
-        if (map.getContent() != null) {
-            message = map.getContent();
-            changes.add(new Change(principal.getName(), message));
-            while (changes.size() > 10) {
-                changes.remove(0);
-            }
-        }
+        message = MessageUtil.adminSubmitsNewChange(map, principal, changes);
         return new Message(message);
     }
 
