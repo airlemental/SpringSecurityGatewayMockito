@@ -1,4 +1,83 @@
-redis:
-  image: redis
-  ports:
-    - "6379:6379"
+# To execute this docker-compose yml file use `docker-compose -f <file_name> up`
+# Add the `-d` flag at the end for detached execution
+version: "3"
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+  selenium-hub:
+    image: selenium/hub:3.141.59-zinc
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+  chrome:
+    image: selenium/node-chrome:3.141.59-zinc
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+  firefox:
+    image: selenium/node-firefox:3.141.59-zinc
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+
+
+# To execute this docker-compose yml file use `docker-compose -f <file_name> up`
+# 'docker-compose up -d'  will run it in detached mode as long as name of file stays docker-compose.yml
+# Add the `-d` flag at the end for detached execution
+#version: "3"
+#services:
+#
+#  redis:
+#    image: redis:alpine
+#    ports:
+#      - "6379:6379"
+#
+#
+#  selenium-hub:
+#    image: selenium/hub:3.141.59-zinc
+#    container_name: selenium-hub
+#    ports:
+#      - "4444:4444"
+#
+#
+#  firefox:
+#    image: selenium/standalone-firefox-debug:3.141.59-zinc
+#    volumes:
+#      - /dev/shm:/dev/shm
+#    depends_on:
+#      - selenium-hub
+#    environment:
+#      - HUB_HOST=selenium-hub
+#      - HUB_PORT=4444
+##    ports:
+##      - "5900:5900"
+#    links:
+#      - selenium-hub
+#
+#  chrome:
+#    image: selenium/standalone-chrome-debug:3.141.59-zinc
+#    volumes:
+#      - /dev/shm:/dev/shm
+#    depends_on:
+#      - selenium-hub
+#    environment:
+#      - HUB_HOST=selenium-hub
+#      - HUB_PORT=4444
+##    ports:
+##      - "5900:5900"
+#    links:
+#      - selenium-hub
+
+
+
